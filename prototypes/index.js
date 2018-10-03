@@ -8,19 +8,34 @@ const { bosses, sidekicks } = require('./datasets/bosses');
 
 // DATASET: instructors, cohorts from ./datasets/turing
 const turingPrompts = {
-  studentsForEachInstructor() {
+  function studentsForEachInstructor() {
     // Return an array of instructors where each instructor is an object
     // with a name and the count of students in their module. e.g. 
     // [
     //  { name: 'Pam', studentCount: 21 },
     //  { name: 'Robbie', studentCount: 18 }
     // ]
+    const result = instructors.map((instructor) => {
+        let studentCountModule = cohorts.find((currVal) => {
+          return currVal.module === instructor.module;
+        });
+      
+        let newInstructor = { name: instructor.name,
+                              studentCount: studentCountModule.studentCount }    
+        return newInstructor;
+    })
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
+  }
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Recieved two arrays of objects, I need to return an array of the same length
+    // for the instructors array as I am going to need to return an array of instructors
+    // therefore I reached for the map method.
+    // It makes the most sense to iterate over the instructors method as that is the
+    // same length array I will be returning.
+    // both of the datasets have the module key in common so that is how I will get 
+    // them to speak to eachother.
   },
 
   studentsPerInstructor() {
@@ -184,19 +199,34 @@ const classPrompts = {
 
 
 // DATASET: cakes from ./datasets/cakes
+
+//GTG
 const cakePrompts = {
   allToppings() {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((arr, currentValue) => {
+        currentValue.toppings.forEach((value) => {
+            if (arr.indexOf(value) === -1) {
+            arr.push(value);
+            }
+        })
+        return arr;
+    }, []);
+
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I am given an array of objects containing cake properties
+    // I am being asked to return an array of unique toppings with no duplicates needed
+    // to back every single cake in the dataset, so bluntly an array of unique
+    // toppings. therefore I am going to use reduce to return a single value of any
+    // data type I choose. 
   },
 
+//NEEDED
   groceryList() {
     // I need to make a grocery list. Please give me an object where the keys are
     // each topping, and the values are the amount of that topping I need to buy e.g.
@@ -208,13 +238,32 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((obj, topping) => {
+        topping.toppings.forEach((value) => {
+            if (!obj[value]) {
+                obj[value] = 10;
+            } else {
+                obj[value]++;
+            }
+        })
+        return obj;
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Need to return an object
+    // keys will all be toppings
+    // values will be amount needed to buy
+    // values will reflect the amount of times the topping is listed in the cakes array
+    // I need to specify my data type, therefore I will reach for reduce
+    // I need to iterate through each array of toppings and create key value pairs
+    // inside of my object
+    // therefore i need to add the value as a key and assign it to a default of 1
+    // if it sees it again, therefore, incriment.
+
   },
 
+//GTG
   stockPerCake() {
     // Return an array of objects that include just the flavor of the cake and how
     // much of that cake is in stock e.g.
@@ -224,24 +273,41 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.map((value) => {
+        flavorStockNum = {flavor: value.cakeFlavor, inStock: value.inStock};
+        return flavorStockNum;
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I am given an array of objects
+    // need to return an array
+    // array will be same length
+    // each element is an object
+    // im going to reach for map
+    // im going to return an object into my new map array based on the two 
+    // keys and values needed
   },
 
+//GTG
   totalInventory() {
     // Return the total amout of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, currentVal) => {
+        acc += currentVal.inStock;
+        return acc;
+    }, 0)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I am given an array of objects
+    // I want the total number of cakes (a number)
+    // I can add them all up using reduce
+
   },
 
+//GTG
   onlyInStock() {
     // Return an array of only the cakes that are in stock
     // e.g.
@@ -262,6 +328,18 @@ const cakePrompts = {
     // },
     // ..etc
     // ]
+
+
+    const result = cakes.filter((currentCake) => {
+        return currentCake.inStock;
+    });
+
+    return result;
+
+    // Write your annotation here as a comment
+    // Im recieving an array of cakes and i want a subset of that array so 
+    // Im going to reach for filter. My filter callback will return only the cakes
+    // that have an inStock value
   }
 };
 
