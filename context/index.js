@@ -16,11 +16,11 @@ const context = {
 
 
     // What is the value of `this` when we call ship.fly()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'instance of SpaceProbe'
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // new is invoked so it will be on the new instance 
   },
 
   exerciseB() {
@@ -30,7 +30,7 @@ const context = {
     }
     
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object'
     return result;
 
     // Annotation:
@@ -49,7 +49,7 @@ const context = {
     el.addEventListener("click", car.getInfo);
 
     // What is the value of `this` when a user clicks on our element and car.getInfo() is triggered?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'car';
     return result;
 
     // Annotation: 
@@ -70,7 +70,7 @@ const context = {
 
 
     // What is the value of `this` when we call dog.getBreed()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 
@@ -86,7 +86,7 @@ const context = {
 
 
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'fn';
     return result;
 
     // Annotation: 
@@ -109,7 +109,7 @@ const context = {
     const storm = new Hero('Ororo', 'weather control', true);
 
     // What is the value of `this` when we call storm.identifyHero()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'storm';
     return result;
 
     // Annotation: 
@@ -137,7 +137,7 @@ const context = {
 
 
     // What is the value of `this` when we call monopoly.restart()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 

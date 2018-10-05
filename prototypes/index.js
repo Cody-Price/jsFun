@@ -27,7 +27,6 @@ const turingPrompts = {
     })
 
     return result;
-  }
 
     // Annotation:
     // Recieved two arrays of objects, I need to return an array of the same length
@@ -105,6 +104,8 @@ const turingPrompts = {
 
 // DATASET: mods from ./datasets/mods
 const modPrompts = {
+
+//GTG
   studentsPerMod() {
     // Return an array of objects where the keys are mod (the number of the module)
     // and studentsPerInstructor (how many students per instructor there are for that mod) e.g.
@@ -115,12 +116,22 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = mods.map((element, index) => {
+        let studentsPerMod = { mod: (index + 1), studentsPerInstructor: (element.students / element.instructors)}
+        return studentsPerMod;
+        })
+        return result;
 
     // Annotation:
-    // Write your annotation here as a comment
-  }
+    // I am given an array of objects
+    // I want an array of objects back of the same length
+    // I am going to reach for map
+    // I utilized map passing the element and index through the callback function
+    // since conveniently the mods were in order and just had to add one to each
+    // index, then on the second key I just had to call some simple math for the value
+    // of dividing the students by the instructors then return each object as an 
+    // element that map will create for me.
+    }
 };
 
 
@@ -141,6 +152,8 @@ const modPrompts = {
 
 // DATASET: classrooms from ./datasets/classrooms
 const classPrompts = {
+
+//GTG
   feClassrooms() {
     // Create an array of just the front-end classrooms. e.g.
     // [
@@ -150,13 +163,18 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.filter((room) => {
+        if (room.program === 'FE') {
+        return room;
+        }
+    });
     return result;
 
     // Annotation:
     // Write your annotation here as a comment
   },
 
+//GTG
   totalCapacities() {
     // Create an object where the keys are 'feCapacity' and 'beCapacity',
     // and the values are the total capacity for all classrooms in each program e.g.
@@ -165,17 +183,35 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let feTotal = 0;
+    let beTotal = 0;    
+
+    const result = classrooms.reduce((obj, room) => {
+        if (room.program === 'FE') {
+            obj.feTotal += room.capacity;
+        } else {
+            obj.beTotal += room.capacity;
+        }
+
+        obj = { feCapacity: feTotal , beCapacity: beTotal };
+        return obj;
+    }, {})
+    
     return result;
 
     // Annotation:
     // Write your annotation here as a comment
   },
 
+//GTG
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.map((room) => {
+      return room.capacity;
+    }).sort((a, b) => {
+      return a - b;
+    })
     return result;
 
     // Annotation:
@@ -201,8 +237,9 @@ const classPrompts = {
 
 // DATASET: cakes from ./datasets/cakes
 
-//GTG
 const cakePrompts = {
+
+//GTG
   allToppings() {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
@@ -227,7 +264,7 @@ const cakePrompts = {
     // data type I choose. 
   },
 
-//NEEDED
+//GTG
   groceryList() {
     // I need to make a grocery list. Please give me an object where the keys are
     // each topping, and the values are the amount of that topping I need to buy e.g.
@@ -362,6 +399,8 @@ const cakePrompts = {
 
 // DATASET: pie from ./datasets/pie
 const piePrompts = {
+
+//GTG
   howManyIngredients() {
     // The bakery needs to make more rhubarb pies in order to meet the
     // desiredInventoryCount. Programmatically determine how many more pies
@@ -372,11 +411,31 @@ const piePrompts = {
     //   sugar: 100
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+
+
+    const result = const piesNeeded = pie.desiredInventoryCount - pie.inventoryCount;
+
+    const pieIngredientKeys = Object.keys(pie.ingredients);
+
+    const groceryList = Object.assign({}, pie.ingredients);
+
+    pieIngredientKeys.forEach((value) => {
+        groceryList[value] = groceryList[value] * piesNeeded;
+    });
+
+    result = groceryList;
+
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I am given an Object called pie
+    // I want an object of a different length back
+    // I cannot iterate over an object with an array
+    // prototype method
+    // I can use an object prototype method
+    // I do not want to modify the original object so I 
+    // need to reach for Object.assign
+    // 
   }
 };
 
@@ -397,6 +456,8 @@ const piePrompts = {
 
 // DATASET: clubs from ./datasets/clubs
 const clubPrompts = {
+
+//GTG
   membersBelongingToClubs() {
     // Create an object whose keys are the names of people, and whose values are
     // arrays that include the names of the clubs that person is a part of. e.g. 
@@ -406,7 +467,24 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = clubs.reduce((namesArr, club) => {
+      club.members.forEach((member) => {
+        if (!namesArr.includes(member)) {
+          namesArr.push(member);
+        }
+      })
+      return namesArr;
+    }, []).reduce((obj, name) => {
+      let clubArr = [];
+      clubs.forEach((club) => {
+        if (club.members.includes(name)) {
+          clubArr.push(club.club);
+        }
+      })
+      obj[name] = clubArr;
+      return obj
+    }, {});
+
     return result;
 
     // Annotation:
@@ -431,6 +509,8 @@ const clubPrompts = {
 
 // DATASET: bosses, sidekicks from ./datasets/bosses
 const bossPrompts = {
+
+//GTG
   bossLoyalty() {
     // Create an array of objects that each have the name of the boss and the sum
     // loyalty of all their sidekicks. e.g.:
@@ -439,8 +519,18 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
+    const bossKeys = Object.keys(bosses);
+    const result = bossKeys.map((boss) => {
+        let loyalty = sidekicks.reduce((loyaltyTotal, sidekick) => {
+        if (sidekick.boss === bosses[boss].name) {
+            loyaltyTotal += sidekick.loyaltyToBoss;
+        }
+        return loyaltyTotal;
+        }, 0)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+        return { bossName: bosses[boss].name, sideKickLoyalty: loyalty }
+        }).reverse();
+
     return result;
 
     // Annotation:
@@ -465,27 +555,40 @@ const bossPrompts = {
 
 // DATASET: kitties from ./datasets/kitties
 const kittyPrompts = {
+
+//GTG
   orangeKittyNames() {
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.filter((element) => {
+              return element.color === 'orange';
+            }).map((value) => {
+              return value.name;
+            });
+
     return result;
 
     // Annotation:
     // Write your annotation here as a comment
   },
 
+//GTG
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const const result = kitties.map((element) => {
+      return element.age;
+    }).sort((a, b) => {
+      return a - b;
+    });
     return result;
 
     // Annotation:
     // Write your annotation here as a comment
   },
 
+//GTG
   growUp() {
     // Return an array of kitties who have all grown up by 2 years e.g.
     // [{
@@ -499,6 +602,12 @@ const kittyPrompts = {
     //   color: 'orange'
     // },
     // ...etc]
+    const result = kitties.map((kitten) => {
+      kitten.age += 2;
+      return kitten
+    });
+
+    return result;
   };
 };
 
@@ -534,8 +643,14 @@ const astronomyPrompts = {
     //     lightYearsFromEarth: 640,
     //     color: 'red' }
     // ]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const constellationKeys = Object.keys(constellations);
+    const result = stars.filter((star) => {
+      const namesArray = constellationKeys.reduce((arr, constellation) => {
+      arr = arr.concat(constellations[constellation].stars)
+      return arr;
+      }, []);
+      return namesArray.includes(star.name)
+    });;
     return result;
 
     // Annotation:

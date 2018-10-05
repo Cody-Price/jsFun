@@ -11,29 +11,65 @@ const scope = {
       }
 
       function beautifyPerson() {
-        // Log A: personB
+        // Log A: personB 'Ben' 1
         
         if (personB.includes('B')) {
-          personB = person;
-          personC = personB;
-          // Log B: personC
+          personB = person; // personB = 'CardiB'
+          personC = personB; // personC = 'CardiB'
+          // Log B: personC 'CardiB' 2
         }
       }
 
-      personC = personA;
+      personC = personA; //personC = 'Paul'
 
-      // Log C: personB
+      // Log C: personB = 'CardiB' 3
     }
 
     changePerson();
 
-    // Log D: personC
+    // Log D: personC = 'Paul'
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A': 'Ben' },
+      { 'B': 'CardiB' },
+      { 'C': 'CardiB' },
+      { 'D': 'Paul' }
+    ];
+
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // first we declare global variable personA and assign it to the value of 'Paul', then we
+    // declare a global variable personB and assign it to the value of 'Ben', then we declare
+    // a global variable personC and assign it to the value of 'Tom'. then we declare the
+    // function changePerson. then we invoke the function changePerson. inside of the function
+    // changePerson, we reach an conditional if statement that states if the variable personA
+    // strictly equals the string of 'Paul', reassign the variable person to a value of 'CardiB'
+    // however this variable does not exist in the current block, therefore since it has not 
+    // been assigned with let or const, it will leak out of the current if block (lines 8-11)
+    // and into the changePerson functional scope and look for the variable person to reassign
+    // however inside of the changePerson functional scope the variable person does not exist,
+    // therefore it will go up the scope chain  to the global scope and look for the variable 
+    // person to reassign, however since there is no person variable in the global scope either
+    // it will declare the variable person in the global scope without any declaration keyword.
+    // then we go back down to line 10 and invoke the function beautifyPerson which will hoist
+    // the function beautifyPerson to the current executing line of code which will then log
+    // the variable personB which currently is set to the value of 'Ben', then we will move to 
+    // line 16 and run another conditional if statement that will check whether personB includes
+    // the string 'B' which since the current value of personB at this point in the code 
+    // execution is assigned to the value of 'Ben' therefore the statement will return true and 
+    // following statement will execute brining us to line 17 where we are reassigning personB
+    // to the value of the variable person which is globally scoped and currently assigned to the
+    // value of 'CardiB', then the variable personC is reassigned to the value of personB which
+    // was just reassigned to the value of 'CardiB'. therefore on the next line of code we will
+    // then log personC which is currently assigned to the value of 'CardiB',  that finishes
+    // the if statement under the function beautifyPerson which finishes the if statement on 
+    // lines 8-11, which will move us down to line 23 where we are reassigning the variable 
+    // personC to the value of personA which is currently assigned to the value of 'Paul' then
+    // we move to line 25 and log personB which at this point in time is assigned
+    // to the value of 'CardiB'
+    // which completes the function changePerson and brings us to line 30 where we
+    // log personC which at this point in time is assigned to the value of 'Paul'
   },
 
   exerciseB() {
@@ -46,7 +82,7 @@ const scope = {
         let number = 28;
       }
 
-      // Log A: number
+      // Log A: number // 28
 
       function newNumber() {
         number = 64;
@@ -63,7 +99,13 @@ const scope = {
 
     // Log D: number
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A': 75 },
+      { 'B': 64 },
+      { 'C': 64 },
+      { 'D': 30 }
+    ];
+
     return result;
 
     // Annotation:
@@ -97,7 +139,13 @@ const scope = {
 
     // Log D: greeting
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A', 'Yo' },
+      { 'B', 'Hey' },
+      { 'C', 'Hey' },
+      { 'D', 'Hello' }
+    ];
+
     return result;
 
     // Annotation:
@@ -131,7 +179,13 @@ const scope = {
 
     // Log D: greeting
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A', 'hi' },
+      { 'B', 'welcome' },
+      { 'C', 'welcome' },
+      { 'D', 'howdy' }
+    ];
+
     return result;
 
     // Annotation:
@@ -163,7 +217,13 @@ const scope = {
 
     // Log D: name
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'C', 'Brittany' },
+      { 'A', 'Nathaniel' },
+      { 'B', 'Nathaniel' },
+      { 'D', 'Brittany' }
+    ];
+
     return result;
 
     // Annotation:
@@ -198,7 +258,13 @@ const scope = {
 
     // Log E: dog
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A', 'Spot' },
+      { 'B', 'Spot' },
+      { 'C', 'Biscuit' },
+      { 'D', 'Biscuit' },
+      { 'E', 'Biscuit' }
+    ]
     return result;
 
     // Annotation:
@@ -228,7 +294,12 @@ const scope = {
 
     // Log D: fruit
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'A', 'undefined' },
+      { 'B', 'mango' },
+      { 'C', 'mango' },
+      { 'D', 'apple' }
+    ]
     return result;
 
     // Annotation:
@@ -268,7 +339,9 @@ const scope = {
 
     fn1();
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { }
+    ]
     return result;
 
     // Annotation:
@@ -477,11 +550,21 @@ const scope = {
     putOnShoe();
     // Log C: shoe
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { 'B': 'flipflop' },
+      { 'A': 'undefined' },
+      { 'C': 'flipflop' }
+    ];
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // on line 469 we declare a global variable named shoe and assign it equal to flipflop
+    // then we declare a global function named putOnShoe, but we skip down to line 469 because
+    // it hasnt been invoked yet. on line 469 we log the value of shoe which is 'flipflop' at
+    // this point  in time. then we go ahead and invoke our putOnShoe function, and then we try
+    // to log shoe within our function, we get undefined because our shoe declaration on line 473
+    // is hoisted to the top of that function scope. once weve finished executing putOnShoe, we
+    // go back down to line 478 and log shoe again which will give us flipflop.
   }
 }
 
