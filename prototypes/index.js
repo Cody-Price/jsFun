@@ -602,6 +602,7 @@ const kittyPrompts = {
     //   color: 'orange'
     // },
     // ...etc]
+<<<<<<< HEAD
     const result = kitties.map((kitten) => {
       kitten.age += 2;
       return kitten
@@ -609,6 +610,9 @@ const kittyPrompts = {
 
     return result;
   };
+=======
+  }
+>>>>>>> 9aa4410885adf164f86fa8167c072fcd5bd4fb0c
 };
 
 
@@ -706,5 +710,6 @@ module.exports = {
   classPrompts,
   modPrompts,
   kittyPrompts,
+  cakePrompts,
   astronomyPrompts
 };
