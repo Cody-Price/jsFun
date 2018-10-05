@@ -602,17 +602,13 @@ const kittyPrompts = {
     //   color: 'orange'
     // },
     // ...etc]
-<<<<<<< HEAD
     const result = kitties.map((kitten) => {
       kitten.age += 2;
       return kitten
     });
 
     return result;
-  };
-=======
   }
->>>>>>> 9aa4410885adf164f86fa8167c072fcd5bd4fb0c
 };
 
 
